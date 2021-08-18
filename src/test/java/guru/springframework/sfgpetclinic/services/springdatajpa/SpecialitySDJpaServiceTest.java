@@ -23,21 +23,31 @@ class SpecialitySDJpaServiceTest {
     private SpecialitySDJpaService service;
 
     @Test
+    void testDeleteByObject() {
+        //create new Speciality object that our mock will return
+        Speciality speciality = new Speciality();
+
+        service.delete(speciality);
+
+        verify(specialtyRepository).delete(any(Speciality.class));
+    }
+
+    @Test
     void findById() {
         //create new Speciality object that our mock will return
         Speciality speciality = new Speciality();
 
         //when specialtyRepository findById() is called
-        //-> return an Optional of that Speciality object that we created on line 27
+        //-> return the Speciality object that we created on line 27
         when(specialtyRepository.findById(1L)).thenReturn(Optional.of(speciality));
 
-        //make an actual call
+        //make an actual call -> assign Speciality obj on line 27 to foundSpecialty
         Speciality foundSpecialty = service.findById(1L);
 
         assertThat(foundSpecialty).isNotNull();
 
         //make sure findById() only call once
-        verify(specialtyRepository).findById(1L);
+        verify(specialtyRepository).findById(anyLong());
     }
 
     @Test
