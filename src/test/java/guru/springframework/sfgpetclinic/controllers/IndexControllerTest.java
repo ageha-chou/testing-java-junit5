@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.*;
 
 import java.time.Duration;
 
@@ -36,7 +37,7 @@ class IndexControllerTest {
         assertThrows(ValueNotFoundException.class, () -> controller.oopsHandler());
     }
 
-    @Disabled
+    @Disabled("Demo timeout")
     @Test
     @DisplayName("Demo of timeout")
     void testTimeOut() {
@@ -46,7 +47,7 @@ class IndexControllerTest {
         });
     }
 
-    @Disabled
+    @Disabled("Demo timeout")
     @Test
     @DisplayName("Demo of timeout")
     void testTimeOutPrempt() {
@@ -57,12 +58,43 @@ class IndexControllerTest {
     }
 
     @Test
+    @DisplayName("Demo Assumption")
     void testAssumptionTrue() {
-        assumeTrue("GURU".equalsIgnoreCase(System.getenv("GURU")));
+        assumeTrue("GURU".equalsIgnoreCase(System.getenv("GURU")), "Wrong condition");
     }
 
     @Test
     void testAssumptionTrueAssumptionIsTrue() {
         assumeTrue("GURU".equalsIgnoreCase("GURU"));
+    }
+
+    @Test
+    @EnabledOnOs(OS.MAC)
+    void testMeOnMacOS() {
+    }
+
+    @EnabledOnOs(OS.WINDOWS)
+    @Test
+    void testMeOnWindow() {
+    }
+
+    @Test
+    @EnabledOnJre(JRE.JAVA_8)
+    void testMeOnJava8() {
+    }
+
+    @Test
+    @EnabledOnJre(JRE.JAVA_11)
+    void testMeOnJava11() {
+    }
+
+    @Test
+    @EnabledIfEnvironmentVariable(named = "USERNAME", matches = "Delwyn")
+    void testIfUserSystem() {
+    }
+
+    @Test
+    @EnabledIfEnvironmentVariable(named = "USERNAME", matches = "Fred")
+    void testIfUserFred() {
     }
 }
