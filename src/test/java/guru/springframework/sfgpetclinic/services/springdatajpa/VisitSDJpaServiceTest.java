@@ -57,6 +57,7 @@ class VisitSDJpaServiceTest {
 
         //then
         assertThat(foundSet).hasSize(1);
+        then(visitRepository).should().findAll();
     }
 
     @Test
